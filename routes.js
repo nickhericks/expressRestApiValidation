@@ -1,37 +1,65 @@
 'use strict';
 
 const express = require('express');
+// Construct a router instance.
+const router = express.Router();
+
 
 // This array is used to keep track of user records
 // as they are created.
 const users = [];
 
-// Construct a router instance.
-const router = express.Router();
 
 // Route that returns a list of users.
 router.get('/users', (req, res) => {
   res.json(users);
 });
 
+
 // Route that creates a new user.
 router.post('/users', (req, res) => {
-  console.log('POST request sent.');
-
   // Get the user from the request body.
   const user = req.body;
 
-  console.log('req.body added to user variable.');
+  // array of error messages
+  const errors = [];
 
-  // Add the user to the `users` array.
-  users.push(user);
+  // Validate that we have a `name` value.
+  if (!user.name) {
+    errors.push('Please provide a value for \'name\'');
+  }
 
-  console.log('user data pushed to users array.');
+  // Validate that we have an `email` value.
+  if (!user.email) {
+    errors.push('Please provide a value for \'email\'');
+  }
 
-  // Set the status to 201 Created and end the response.
-  res.status(201).end();
+  // Validate that we have a `birthday` value.
+  if (!user.birthday) {
+    errors.push('Please provide a value for \'birthday\'');
+  }
 
-  console.log('201 status code sent.');
+  // Validate that we have a `password` value.
+  if (!user.password) {
+    errors.push('Please provide a value for \'password\'');
+  }
+
+  // Validate that 'password' value matches `passwordConf` value.
+  if (user.password !== user.passwordConf) {
+    errors.push('\'passwordConf\' must match \'password\'');
+  }
+
+  if (errors.length > 0) {
+    // Return the validation errors to the client.
+    res.status(400).json({ errors });
+  } else {
+    // Add the user to the `users` array.
+    users.push(user);
+
+    // Set the status to 201 Created and end the response.
+ 	 res.status(201).end();
+  }
 });
+
 
 module.exports = router;

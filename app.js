@@ -13,6 +13,7 @@ app.use(express.json());
 // Setup morgan which gives us HTTP request logging.
 app.use(morgan('dev'));
 
+
 // Setup a friendly greeting for the root route.
 app.get('/', (req, res) => {
   res.json({
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 // Add routes.
 app.use('/api', routes);
+
 
 // Send 404 if no other route matched.
 app.use((req, res) => {
@@ -39,6 +41,7 @@ app.use((err, req, res, next) => {
     error: process.env.NODE_ENV === 'production' ? {} : err,
   });
 });
+
 
 // Set our port.
 app.set('port', process.env.PORT || 5000);
