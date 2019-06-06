@@ -17,6 +17,16 @@ router.get('/users', (req, res) => {
 });
 
 
+// // Use in Postman for testing
+// {
+//   "name": "Joe Smith",
+//   "email": "joe@smith.com",
+//   "birthday": "2009-02-29",
+//   "password": "passwordsaregood",
+//   "passwordConfirmation": "passwordsareggpood"
+// }
+
+
 // Route that creates a new user.
 router.post(
   '/users',
@@ -47,7 +57,7 @@ router.post(
       .custom((value, { req }) => {
         // Only attempt to compare the `password` and `passwordConfirmation`
         // fields if they have values.
-        if (value && req.body.password && value !== req.body.password) {
+        if (value && req.body.password && value !== req.body.passwordConfirmation) {
           throw new Error(
             'Please provide values for "password" and passwordConfirmation" that match',
           );
