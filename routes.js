@@ -24,7 +24,20 @@ router.post('/users', [
     .withMessage('Please provide a value for "name"'),
   check('email')
     .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please provide a value for "email"'),
+		.withMessage('Please provide a value for "email"')
+		.isEmail()
+		.withMessage('Please provide a valid email address for "email"'),
+  check('birthday')
+    .exists({ checkNull: true, checkFalsy: true })
+		.withMessage('Please provide a value for "birthday"')
+		.isDate()
+		.withMessage(),
+  check('password')
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('Please provide a value for "password"'),
+  check('passwordConf')
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('Please provide a value for "passwordConf"'),
 ], (req, res) => {
   // Attempt to get the validation result from the Request object.
   const errors = validationResult(req);
